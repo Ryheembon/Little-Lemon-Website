@@ -1,0 +1,38 @@
+.booking-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #495E57 0%, #495E57 30%, #FFFFFF 30%, #FFFFFF 100%);
+  padding: 40px 20px;
+}
+
+.booking-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.booking-header {
+  text-align: center;
+  color: #FFFFFF;
+  margin-bottom: 40px;
+}
+
+.booking-header h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  font-family: 'Markazi Text', serif;
+}
+
+.booking-header p {
+  font-size: 1.2rem;
+  color: #EDEFEE;
+  font-family: 'Karla', sans-serif;
+}
+
+.booking-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+} 
