@@ -57,26 +57,28 @@ let weather = {
   setBackgroundImage: function (city) {
     // Use the weather condition to set an appropriate background
     const weatherDescription = document.querySelector(".description").innerText.toLowerCase();
-    let imageQuery = city + ',weather';
+    let category = '';
     
-    // Add more specific terms based on weather condition
+    // Determine the best category based on weather description
     if (weatherDescription.includes('cloud')) {
-      imageQuery += ',clouds';
+      category = 'clouds';
     } else if (weatherDescription.includes('rain')) {
-      imageQuery += ',rain';
+      category = 'rain';
     } else if (weatherDescription.includes('snow')) {
-      imageQuery += ',snow';
+      category = 'snow';
     } else if (weatherDescription.includes('clear')) {
-      imageQuery += ',sunny,clear sky';
+      category = 'sunny';
     } else if (weatherDescription.includes('thunder')) {
-      imageQuery += ',storm,lightning';
+      category = 'storm';
+    } else {
+      category = 'weather'; // default weather category
     }
     
     // Set that we've loaded a weather-related background
     initialBackgroundLoaded = true;
     
-    // Use our existing background change function with weather-appropriate query
-    changeBackgroundImage(imageQuery);
+    // Use our existing background change function with weather-appropriate category
+    changeBackgroundImage(category);
   },
 
   toggleUnits: function () {
@@ -175,16 +177,42 @@ function changeBackgroundImage(category = '', customUrl = '') {
         return;
     }
     
-    // Add random parameter to prevent caching
-    const timestamp = new Date().getTime();
+    // Use predefined background images based on category
+    let imageUrl;
     
-    // Use provided category or default categories
-    const imageQuery = category || 'weather,nature,landscape,sky';
+    // Map of categories to specific Unsplash photo URLs
+    const categoryImages = {
+        'default': 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1600&auto=format&fit=crop',
+        'nature': 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1600&auto=format&fit=crop',
+        'weather': 'https://images.unsplash.com/photo-1516490981167-dc990a242afe?q=80&w=1600&auto=format&fit=crop',
+        'clouds': 'https://images.unsplash.com/photo-1611928482473-7b27d24eab80?q=80&w=1600&auto=format&fit=crop',
+        'rain': 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?q=80&w=1600&auto=format&fit=crop',
+        'snow': 'https://images.unsplash.com/photo-1516431883659-655d41c09bf9?q=80&w=1600&auto=format&fit=crop',
+        'sunny': 'https://images.unsplash.com/photo-1622396481328-9b1b78cdd9fd?q=80&w=1600&auto=format&fit=crop',
+        'storm': 'https://images.unsplash.com/photo-1537210249814-b9a10a161ae4?q=80&w=1600&auto=format&fit=crop',
+        'mountains': 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=1600&auto=format&fit=crop',
+        'beach': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop'
+    };
     
-    // Use direct Unsplash source URL
-    const unsplashUrl = `https://source.unsplash.com/1600x900/?${imageQuery}&t=${timestamp}`;
+    // Determine which category to use
+    if (category) {
+        // Find best match from the provided category string
+        for (const key in categoryImages) {
+            if (category.includes(key)) {
+                imageUrl = categoryImages[key];
+                break;
+            }
+        }
+    }
     
-    applyBackgroundImage(unsplashUrl);
+    // If no match found, use a random image from our collection
+    if (!imageUrl) {
+        const categories = Object.keys(categoryImages);
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        imageUrl = categoryImages[randomCategory];
+    }
+    
+    applyBackgroundImage(imageUrl);
     
     // Remove loading indicator after some time
     setTimeout(() => {
@@ -224,10 +252,15 @@ function addBackgroundControls() {
     
     // Create category buttons
     const categories = [
-        { name: 'Nature', query: 'nature,landscape' },
-        { name: 'Weather', query: 'weather,clouds,storm' },
-        { name: 'Beach', query: 'beach,ocean,sea' },
-        { name: 'Mountains', query: 'mountains,peaks' }
+        { name: 'Nature', query: 'nature' },
+        { name: 'Weather', query: 'weather' },
+        { name: 'Clouds', query: 'clouds' },
+        { name: 'Rain', query: 'rain' },
+        { name: 'Snow', query: 'snow' },
+        { name: 'Sunny', query: 'sunny' },
+        { name: 'Storm', query: 'storm' },
+        { name: 'Mountains', query: 'mountains' },
+        { name: 'Beach', query: 'beach' }
     ];
     
     // Add category selector
