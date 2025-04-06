@@ -236,11 +236,11 @@ window.addEventListener('load', () => {
 // Add background change buttons to HTML
 function addBackgroundControls() {
     const footer = document.querySelector('.app-footer');
-    
+
     // Create container for background controls
     const bgControlsContainer = document.createElement('div');
     bgControlsContainer.className = 'bg-controls';
-    
+
     // Main button to change background with default categories
     const changeBtn = document.createElement('button');
     changeBtn.className = 'bg-change-btn';
@@ -249,7 +249,7 @@ function addBackgroundControls() {
         initialBackgroundLoaded = true; // Prevent weather from changing it
         changeBackgroundImage();
     });
-    
+
     // Create category buttons
     const categories = [
         { name: 'Nature', query: 'nature' },
@@ -262,17 +262,17 @@ function addBackgroundControls() {
         { name: 'Mountains', query: 'mountains' },
         { name: 'Beach', query: 'beach' }
     ];
-    
+
     // Add category selector
     const categorySelect = document.createElement('select');
     categorySelect.className = 'category-select';
-    
+
     // Add default option
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Select category...';
     categorySelect.appendChild(defaultOption);
-    
+
     // Add category options
     categories.forEach(category => {
         const option = document.createElement('option');
